@@ -5,16 +5,16 @@ public:
 
     // O(1) solution
 
-     int n = nums.size();
-        vector<int> res;
+     int n = nums.size(); //calculated size
+        vector<int> res; // result
         int c1 = 1, c2 = 1;
-        for (int j=2; j<k; j++)
-        {
-            if (nums[j] >= nums[j-1])
-                c2++;
-            else
-                c2 = 1;
-        }
+        // for (int j=2; j<k; j++)
+        // {
+        //     if (nums[j] >= nums[j-1])
+        //         c2++;
+        //     else
+        //         c2 = 1;
+        // }
         int i = 0;
         while (i+k<n) 
         {
