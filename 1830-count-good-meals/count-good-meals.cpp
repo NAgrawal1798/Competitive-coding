@@ -28,7 +28,7 @@ public:
 
             for (int j=0; j<v.size(); j++) {
                 if (mp.find(v[j] - arr[i]) != mp.end()) {
-                    ans = (ans + mp[v[j] - arr[i]])%mod;
+                    ans = ( ans + mp[v[j] - arr[i]])%mod;
                 }
             }
         }
