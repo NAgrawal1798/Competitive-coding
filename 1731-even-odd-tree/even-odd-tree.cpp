@@ -11,31 +11,22 @@
  */
 class Solution {
 public:
-        bool isEvenOddTree(TreeNode* root) {
-        if (root == nullptr) {
+    bool isEvenOddTree(TreeNode* root) {
+        if (root == NULL) {
             return true;
         }
 
-        queue<TreeNode*> q;
+        queue<TreeNode*>q;
         q.push(root);
-        int level = 0;
-
-        while (!q.empty()) {
-            int prevValue = (level % 2 == 0) ? 0 : INT_MAX;
-
-            int levelSize = q.size();
-            for (int i = 0; i < levelSize; i++) {
+        q.push(NULL);
+        int level = 1;
+        
+        while(!q.empty() && q.front()!=NULL) {
+            vector<int>values;
+            while(q.front() != NULL) {
                 TreeNode* node = q.front();
+                values.push_back(node->val);
                 q.pop();
-
-                // Check value based on the level's parity
-                if ((level % 2 == 0 && (node->val % 2 == 1) && node->val > prevValue) ||
-                    (level % 2 != 0 && (node->val % 2 == 0) && node->val < prevValue)) {
-                    prevValue = node->val;
-                } else {
-                    return false;
-                }
-
                 if (node->left) {
                     q.push(node->left);
                 }
@@ -44,7 +35,39 @@ public:
                 }
             }
 
+            if (level%2==0) {
+                if(values.size() > 1) {
+                for (int i=0;i<values.size()-1; i++) {
+                    if(values[i]%2==0 && values[i+1]%2==0 && values[i] > values[i+1]) {
+                        continue;
+                    } else {
+                        return false;
+                    }
+                }
+                } else {
+                    if (values.size() == 1 && (values[0]%2 !=0)) {
+                        return false;
+                    }
+                }
+            } else {
+                if (values.size() > 1) {
+               for (int i=0;i<values.size()-1; i++) {
+                    if(values[i]%2!=0 && values[i+1]%2!=0 && values[i] < values[i+1]) {
+                        continue;
+                    } else {
+                        return false;
+                    }
+                }
+                }
+                else {
+                    if (values.size() == 1 && (values[0]%2 ==0)) {
+                        return false;
+                    }
+                }
+            }
             level++;
+            q.pop();
+            q.push(NULL);
         }
 
         return true;
