@@ -26,7 +26,6 @@ public:
         root->right = pruneTree(root->right);
 
         if (root->val == 0 && !(isContains(root->left) || isContains(root->right))) {
-            delete root;
             return NULL;
         }
        
