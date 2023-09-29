@@ -11,32 +11,35 @@
  */
 class Solution {
 public:
-    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
-        if (depth == 1) {
-            TreeNode* newRoot = new TreeNode(val);
-            newRoot->left = root;
-            return newRoot;
+    TreeNode* findDepth(TreeNode* root, int val, int depth, int level) {
+        if (root == NULL) {
+            return NULL;
         }
-
-        addRow(root, val, depth, 1);
-        return root;
+        if (level == (depth-1)) {
+            TreeNode* left = new TreeNode(val);
+            TreeNode* right = new TreeNode(val);
+            left->left = root->left;
+            right->right = root->right;
+            root->left = left;
+            root->right = right;
+        } 
+          TreeNode* leftTree =   findDepth(root->left,val, depth, level+1);
+           TreeNode* rightTree =  findDepth(root->right, val, depth, level+1);
+        
+        return new TreeNode(root->val, leftTree, rightTree);
     }
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        TreeNode* ans = root;
 
-    void addRow(TreeNode* root, int val, int depth, int level) {
-        if (root == nullptr) {
-            return;
+        // Handled depth = 1 case
+        if (depth == 1) {
+            ans = new TreeNode(val);
+            ans->left = root;
+            return ans;
+        }else {
+            return findDepth(root, val, depth, 1);
         }
 
-        if (level == depth - 1) {
-            TreeNode* leftSubtree = root->left;
-            TreeNode* rightSubtree = root->right;
-            root->left = new TreeNode(val);
-            root->right = new TreeNode(val);
-            root->left->left = leftSubtree;
-            root->right->right = rightSubtree;
-        } else {
-            addRow(root->left, val, depth, level + 1);
-            addRow(root->right, val, depth, level + 1);
-        }
+        return ans;
     }
 };
