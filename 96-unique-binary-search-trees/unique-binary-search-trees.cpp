@@ -1,16 +1,15 @@
 class Solution {
 public:
+int dp[20]{};
     int numTrees(int n) {
-        vector<int> dp(n+1);
-        dp[0]=1;
-        for(int i=1;i<=n;i++)
-        {
-            int sum=0;
-            for(int j=0;j<i;j++)
-            {
-                sum+=dp[j]*dp[i-j-1];
-            }
-            dp[i]=sum;
+        if (n<=1) {
+            return 1;
+        }
+        if (dp[n]) {
+            return dp[n];
+        }
+        for (int i=1; i<=n; i++) {
+            dp[n] += numTrees(i-1) * numTrees(n-i);
         }
         return dp[n];
     }
