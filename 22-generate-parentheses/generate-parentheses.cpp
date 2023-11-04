@@ -1,6 +1,7 @@
 class Solution {
 public:
-    // Function to check if a string of parentheses is balanced
+
+    // Function to check if a string of parentheses is balanced or not
     bool isBalanced(string s) {
         int balance = 0;
         for (char c : s) {
@@ -13,11 +14,12 @@ public:
                 }
             }
         }
+
         return balance == 0;
     }
 
     void generateParenthesisHelper(int n, vector<string>& combinations, string current, int open, int close) {
-        if (current.length() == 2 * n) {
+        if (current.length() == n*2) {
             if (isBalanced(current)) {
                 combinations.push_back(current);
             }
@@ -31,9 +33,9 @@ public:
             generateParenthesisHelper(n, combinations, current + ")", open, close + 1);
         }
     }
-
     vector<string> generateParenthesis(int n) {
-        vector<string> combinations;
+        // store result
+        vector<string>combinations;
         generateParenthesisHelper(n, combinations, "", 0, 0);
         return combinations;
     }
