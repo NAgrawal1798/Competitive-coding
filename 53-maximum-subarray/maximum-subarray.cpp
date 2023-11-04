@@ -6,15 +6,14 @@ public:
 
         int n = nums.size();
         for (int i=0; i<n; i++) {
+            sum += nums[i];
             if (nums[i] < 0) {
-                sum += nums[i];
                 ans = max(sum, ans);
                 if (sum < 0) {
                     ans = max(sum, ans);
                     sum =0;
                 }
             } else {
-                sum += nums[i];
                 ans = max(sum, ans);
             }
         }
