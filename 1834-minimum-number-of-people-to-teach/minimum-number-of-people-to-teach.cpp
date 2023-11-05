@@ -30,10 +30,10 @@ public:
             }
         }
 
-        // Sort the pair vector based on the frequency of occurrences.
-        sort(p.begin(), p.end(), [&](pair<int, int> a, pair<int, int> b) {
-            return mp[a.first] + mp[a.second] > mp[b.first] + mp[b.second];
-        });
+        // // Sort the pair vector based on the frequency of occurrences.
+        // sort(p.begin(), p.end(), [&](pair<int, int> a, pair<int, int> b) {
+        //     return mp[a.first] + mp[a.second] > mp[b.first] + mp[b.second];
+        // });
 
         int minTeachings = INT_MAX;
 
