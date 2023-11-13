@@ -1,8 +1,8 @@
 class ATM {
 public:
-    vector<long long>bank = {0,0,0,0,0};
+    vector<long long>bank;
     vector<long long>val = {20,50,100,200,500};
-    ATM(){
+    ATM() : bank(5,0){
     }
     
     void deposit(vector<int> banknotesCount) {
