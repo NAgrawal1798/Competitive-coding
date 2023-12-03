@@ -30,10 +30,10 @@ public:
                 for (int k=0; k<4; k++) {
                     int newr = i + dr[k];
                     int newc = j + dc[k];
-                    if (newr < 0 || newr >= n || newc >=m || newc <0 || visited[newr][newc] == 1 
-                    || isWater[newr][newc] != 0) {
+                    if (newr < 0 || newr >= n || newc >=m || newc <0 || visited[newr][newc] == 1 ) {
                         continue;
                     }
+                    // cout<<"is here"<<" "<<newr<<" "<<newc<<" "<<i<<" "<<j<<endl;
                     isWater[newr][newc] =  1 + isWater[i][j];
                     q.push({newr, newc});
                     visited[newr][newc] = 1;
