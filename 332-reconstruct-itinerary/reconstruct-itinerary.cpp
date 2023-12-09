@@ -1,13 +1,13 @@
 class Solution {
 public:
     vector<string> findItinerary(vector<vector<string>>& tickets) {
-        map<string, vector<pair<string, int>>> mp;
+        map<string, vector<string>> mp;
 
         // Build the adjacency list
         for (const auto& ticket : tickets) {
             string start = ticket[0];
             string end = ticket[1];
-            mp[start].emplace_back(end, 0); // Use emplace_back instead of push_back
+            mp[start].push_back(end);
         }
 
         // Sort destinations in lexical order
@@ -27,10 +27,9 @@ public:
                 itinerary.push_back(current);
                 dfs.pop();
             } else {
-                auto next = mp[current].begin();
-                dfs.push(next->first);
-                next->second = 1; // Mark this ticket as used
-                mp[current].erase(next); // Erase the used ticket
+                string next = mp[current].front(); // Access the first element
+                dfs.push(next);
+                mp[current].erase(mp[current].begin()); // Erase the used ticket
             }
         }
 
