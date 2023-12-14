@@ -29,8 +29,8 @@ public:
         ListNode* next1 = NULL;
         ListNode* first = head;
 
-        int count=0;
-        while(count++ < k) {
+        int tempK=k;
+        while(tempK--) {
             next1 = curr->next;
             curr->next = prev;
             prev = curr;
