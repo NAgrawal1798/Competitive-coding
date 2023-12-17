@@ -34,12 +34,10 @@ public:
         for (int i=0; i<parents.size(); i++) {
             long long child1=1;
             long long child2=1;
-            if (child[i].size() > 0) {
                 if (child[i].size() >=1) {
                     child1 = ans[child[i][0]];
                     child2 = child[i].size() > 1 ? ans[child[i][1]]:1;
                 }
-            }
             mp[child1*child2*max(1LL, (long long )(parents.size() - ans[i]))]++;
         }
 
