@@ -1,30 +1,42 @@
 class Solution {
 public:
     int countServers(vector<vector<int>>& grid) {
-        int i,j,m = grid.size(), n = grid[0].size();
-        vector<int> r(m,0),c(n,0);
-        int x = 0;
-        for(i = 0; i < m; i++){
-            x = 0;
-            for(j = 0; j < n; j++){
-                x += grid[i][j];
+
+        int n = grid.size();
+        int m = grid[0].size();
+        vector<int>r(n,0);
+        vector<int>c(m,0);
+
+        for (int i=0; i<n; i++) {
+            int cnt = 0;
+            for (int j=0; j<m; j++) {
+                if (grid[i][j] == 1) {
+                    cnt++;
+                }
             }
-            r[i] = x;
+            r[i] = cnt;
         }
-        for(j = 0; j < n; j++){
-            x = 0;
-            for(i = 0; i < m; i++){
-                x += grid[i][j];
+
+        for (int j=0; j<m; j++) {
+            int cnt = 0;
+            for (int i=0; i<n; i++) {
+                if (grid[i][j] == 1) {
+                    cnt++;
+                }
             }
-            c[j] = x;
+            c[j] = cnt;
         }
+
         int ans = 0;
-        for(i = 0; i < m; i++){
-            for(j = 0; j < n; j++){
-                // cout<<r[i]<<" "<<c[j]<<" "<<grid[i][j]<<endl;
-                ans += (r[i]+c[j]-2>=1 && grid[i][j]);   
+
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
+                if (r[i] + c[j] - 2 >0 && grid[i][j]==1) {
+                    ans += 1;
+                }
             }
         }
+
         return ans;
     }
 };
