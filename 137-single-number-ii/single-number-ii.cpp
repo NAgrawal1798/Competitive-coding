@@ -8,7 +8,7 @@ public:
                 sum += nums[j] &1;
                 nums[j]>>=1;
             }
-            ans += ((sum%3)<<i);
+            ans |= ((sum%3)<<i);
         }
         return ans;
     }
