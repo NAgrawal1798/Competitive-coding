@@ -9,48 +9,36 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        int len1 = 0;
-        int len2 = 0;
+        // getting the tail
+        ListNode* tail = headA;
+        while(tail->next) {
+            tail = tail->next;
+        }
 
-        ListNode* nodeA = headA;
-        ListNode* nodeB = headB;
-        while(nodeA || nodeB) {
-            if (nodeA) {
-                len1++;
-                nodeA = nodeA->next;
-            }
-            if (nodeB) {
-                len2++;
-                nodeB = nodeB->next;
+        // creating a loop
+        tail->next = headA;
+
+        // detecting and finding the intersection
+        ListNode* fast = headB;
+        ListNode* slow = headB;
+
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (slow == fast) {
+                slow = headB;
+                while(slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                // undoing the loop
+                tail->next = NULL;
+                return slow;
             }
         }
-        int maxLen = len1 < len2 ? len2 : len1;
-        int diff = abs(len1 - len2);
-        if (maxLen == len1) {
-            ListNode* nodeAA = headA;
-            ListNode* nodeBB = headB;
-            while(diff--) {
-                nodeAA = nodeAA->next;
-            }
-
-            while(nodeAA != nodeBB) {
-                nodeAA = nodeAA->next;
-                nodeBB = nodeBB->next;
-            } 
-            return nodeAA;
-        } else {
-            ListNode* nodeAA = headA;
-            ListNode* nodeBB = headB;
-            while(diff--) {
-                nodeBB = nodeBB->next;
-            }
-            while(nodeAA != nodeBB) {
-                nodeAA = nodeAA->next;
-                nodeBB = nodeBB->next;
-            } 
-            return nodeAA;
-
-        }
+        tail->next = NULL;
+        return NULL;
 
     }
 };
