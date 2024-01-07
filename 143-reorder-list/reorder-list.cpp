@@ -10,21 +10,68 @@
  */
 class Solution {
 public:
+    // this is O(n^2) approach
+    // void reorderList(ListNode* head) {
+    //     if (!head || !head->next || !head->next->next) {
+    //         return;
+    //     }
+    //     ListNode* penultimate = head;
+    //     while(penultimate->next->next) {
+    //         penultimate = penultimate->next;
+    //     }
+
+    //     penultimate->next->next = head->next;
+    //     head->next = penultimate->next;
+
+    //     // Again set the penultimate to the last
+    //     penultimate->next = NULL;
+
+    //     reorderList(head->next->next);
+    // }
+    // O(n + n/2 + n) approach
     void reorderList(ListNode* head) {
-        if (!head || !head->next || !head->next->next) {
+        // base case : linkedlist is empty
+        if(!head) {
             return;
         }
-        ListNode* penultimate = head;
-        while(penultimate->next->next) {
-            penultimate = penultimate->next;
+
+        // Finding the middle with the help of 2 pointer approach
+        ListNode* temp = head;
+        ListNode* half = head;
+        while(temp->next && temp->next->next) {
+            temp = temp->next->next;
+            half = half->next;
         }
 
-        penultimate->next->next = head->next;
-        head->next = penultimate->next;
+        // adding one bit in case of lists with even length
+        if(temp->next) {
+            half = half->next;
+        }
 
-        // Again set the penultimate to the last
-        penultimate->next = NULL;
+        ListNode* prev = NULL;
 
-        reorderList(head->next->next);
+        // Now reverse the second half
+        while(half) {
+            temp = half->next;
+            half->next = prev;
+            prev = half;
+            half = temp;
+        }
+
+        half = prev;
+
+        // After reversing the secondhalf , lets merge both the halfes
+        while(head && half) {
+            temp = head ->next;
+            prev = half->next;
+            head->next = half;
+            half->next = temp;
+            head=temp;
+            half = prev;
+        }
+
+        if (head && head->next) {
+            head->next->next = NULL;
+        }
     }
 };
