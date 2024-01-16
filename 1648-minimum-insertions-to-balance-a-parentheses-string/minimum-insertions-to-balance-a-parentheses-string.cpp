@@ -16,7 +16,7 @@ public:
                         minInsert++;
                     }
                     i++;
-                } else if (s[i + 1] != ')' ){
+                } else {
                     if (!st.empty()) {
                         st.pop();
                         minInsert++;
