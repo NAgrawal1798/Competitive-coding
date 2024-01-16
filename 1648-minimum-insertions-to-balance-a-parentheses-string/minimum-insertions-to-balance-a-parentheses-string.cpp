@@ -9,14 +9,14 @@ public:
             if (s[i] == '(') {
                 st.push('(');
             } else { // Add condition to check the count
-                if ( s[i] == ')' && i < n && s[i + 1] == ')') {
+                if (s[i + 1] == ')') {
                     if (!st.empty()) {
                         st.pop();
                     } else {
                         minInsert++;
                     }
                     i++;
-                } else if (s[i] == ')' && i < n && s[i + 1] != ')' ){
+                } else if (s[i + 1] != ')' ){
                     if (!st.empty()) {
                         st.pop();
                         minInsert++;
