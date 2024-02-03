@@ -1,21 +1,13 @@
 class Solution {
 public:
     int minimumArrayLength(vector<int>& nums) {
-        int c=0;
-        int min_ = *min_element(nums.begin(), nums.end());
-        for (int n : nums) {
-            c+= (n==min_);
+        sort(nums.begin(), nums.end());
+        int i = 1;
+        while(i<nums.size() && nums[i]==nums[0])i++;
+        int res = (i+1)/2;
+        for(;i<nums.size();i++){
+            if(nums[i] % nums[0] !=0 ) return 1;
         }
-        bool flag=false;
-        for(int n: nums) {
-            if(n%min_) {
-                flag=true;
-            }
-        }
-
-        if(flag) {
-            return 1;
-        }
-        return (c+1)/2;
+        return res;
     }
 };
