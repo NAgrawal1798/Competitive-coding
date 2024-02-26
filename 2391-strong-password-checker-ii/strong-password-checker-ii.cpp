@@ -30,7 +30,7 @@ public:
             if (password[i] >= 'a' && password[i] <= 'z') {
                 isLowerCaseChar = true;
             }
-            if (isdigit(password[i])) {
+            if (password[i] >= '0' && password[i] <= '9') {
                 isDigit = true;
             }
             if (i != 0) {
