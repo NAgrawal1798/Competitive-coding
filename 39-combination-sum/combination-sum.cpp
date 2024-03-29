@@ -3,9 +3,9 @@ public:
     void helper(vector<int>& candidates, int target, int index, vector<vector<int>>&ans,
     vector<int>& temp) {
         // base case
-        if(target < 0) {
-            return;
-        }
+        // if(target < 0) {
+        //     return;
+        // }
         if(target == 0) {
             ans.push_back(temp);
         }
