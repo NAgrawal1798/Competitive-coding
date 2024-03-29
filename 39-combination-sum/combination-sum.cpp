@@ -12,9 +12,11 @@ public:
 
         // backtracking
         for(int i=index; i<candidates.size(); i++) {
+            if(candidates[i] <= target) {
                 temp.push_back(candidates[i]);
                 helper(candidates, target - candidates[i], i, ans, temp);
                 temp.pop_back();
+            }
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
