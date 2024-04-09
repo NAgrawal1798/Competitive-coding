@@ -1,36 +1,43 @@
 class Solution {
 public:
-    long long solve(vector<int>&v,int k,int idx) {
-        int n=v.size();
-        long long ans=0;
-        int m=v[idx];
-            if(m<k) {
-                ans=ans+k-m;
-                for(int i=idx+1;i<n;i++) {
-                    if(v[i]<=k) {
-                        ans=ans+k-v[i];
-                    }
-                    else
-                        break;
+    long long minOperationsToMakeMedianK(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+
+        int mid = n/2;
+
+        int midEle = nums[mid];
+
+        if(midEle == k) {
+            return 0;
+        }
+
+        long long ans = 0;
+        if(midEle > k) {
+            ans = nums[mid] - k;
+            int i=mid-1;
+            while(i>=0) {
+                if(nums[i] > k) {
+                    ans += nums[i] - k;
+                } else {
+                    break;
                 }
+                i--;
             }
-            else if(m>k) {
-                ans=ans+m-k;
-                for(int i=idx-1;i>=0;i--) {
-                    if(v[i]>=k) {
-                        ans=ans+v[i]-k;
-                    }
-                    else
-                        break;
+        } else {
+            ans = k - nums[mid];
+            int i=mid+1;
+            while(i<n) {
+                if(nums[i] < k) {
+                    ans += k - nums[i];
+                } else {
+                    break;
                 }
+                i++;
             }
+        }
+
         return ans;
-    }
-    long long minOperationsToMakeMedianK(vector<int>& v, int k) {
-        int n=v.size();
-        long long ans=0;
-        sort(v.begin(),v.end());
-        ans=solve(v,k,n/2);
-        return ans;
+
     }
 };
