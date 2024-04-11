@@ -1,53 +1,41 @@
-class Solution
-{
+class Solution {
 public:
-    vector<int> beautifulIndices(string s, string a, string b, int k)
-    {
-        int S = s.size();
-        int A = a.size();
-        int B = b.size();
-        vector<int> ai;
-        vector<int> bi;
-        int i = 0;
-
-        // Populate vectors ai and bi with indices of occurrences of substrings a and b
-        while (i < S - A + 1 || i < S - B + 1)
-        {
-            if (i < S - A + 1 && s.substr(i, A) == a)
-            {
-                ai.push_back(i);
-            }
-            if (i < S - B + 1 && s.substr(i, B) == b)
-            {
-                bi.push_back(i);
-            }
-            i++;
-        }
+    vector<int> beautifulIndices(string s, string a, string b, int k) {
+        // Vector to store the beautiful indices
+        vector<int> ans, indices_a, indices_b;
         
-        int n1 = ai.size();
-        int n2 = bi.size();
-        vector<int> ans;
-        i = 0;
-        int j = 0;
-
-        // Find beautiful indices based on the defined criteria
-        while (i < n1 && j < n2)
-        {
-            if (abs(ai[i] - bi[j]) <= k)
-            {
-                ans.push_back(ai[i]);
-                i++;
-            }
-            else if (ai[i] < bi[j])
-            {
-                i++;
-            }
-            else
-            {
-                j++;
+        // Lengths of strings
+        int x = s.size(), y = a.size(), z = b.size();
+        
+        // Step 2: Find indices of occurrences of string 'a'
+        for (int i = 0; i <= x - y; i++) {
+            if (s.substr(i, y) == a) {
+                indices_a.push_back(i);
             }
         }
         
+        // Step 3: Find indices of occurrences of string 'b'
+        for (int j = 0; j <= x - z; j++) {
+            if (s.substr(j, z) == b) {
+                indices_b.push_back(j);
+            }
+        }
+        
+        // Step 4: Check conditions and add beautiful indices to 'ans'
+        for (int i = 0; i < indices_a.size(); i++) {
+            for (int j = 0; j < indices_b.size(); j++) {
+                // Check if substrings match and absolute difference <= k
+                if (abs(indices_a[i] - indices_b[j]) <= k) {
+                    ans.push_back(indices_a[i]);
+                    break;
+                }
+            }
+        }
+        
+        // Step 5: Sort the beautiful indices in ascending order
+        sort(ans.begin(), ans.end());
+        
+        // Step 6: Return the final result
         return ans;
     }
 };
