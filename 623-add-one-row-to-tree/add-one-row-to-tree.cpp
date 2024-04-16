@@ -11,35 +11,30 @@
  */
 class Solution {
 public:
-    TreeNode* findDepth(TreeNode* root, int val, int depth, int level) {
-        if (root == NULL) {
+    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
+        if(root == NULL) {
             return NULL;
         }
-        if (level == (depth-1)) {
-            TreeNode* left = new TreeNode(val);
-            TreeNode* right = new TreeNode(val);
-            left->left = root->left;
-            right->right = root->right;
-            root->left = left;
-            root->right = right;
-        } 
-          TreeNode* leftTree =   findDepth(root->left,val, depth, level+1);
-           TreeNode* rightTree =  findDepth(root->right, val, depth, level+1);
-        
-        return new TreeNode(root->val, leftTree, rightTree);
-    }
-    TreeNode* addOneRow(TreeNode* root, int val, int depth) {
-        TreeNode* ans = root;
+        if(depth == 1) {
+            TreeNode* newNode = new TreeNode(val);
+            newNode->left = root;
+            return newNode;
+        }
+        if(depth == 2) {
+                TreeNode* leftSubtree = root->left;
+                TreeNode* rightSubtree = root->right;
 
-        // Handled depth = 1 case
-        if (depth == 1) {
-            ans = new TreeNode(val);
-            ans->left = root;
-            return ans;
-        }else {
-            return findDepth(root, val, depth, 1);
+                root->left = new TreeNode(val);
+                root->right = new TreeNode(val);
+
+                root->left->left = leftSubtree;
+                root->right->right = rightSubtree;
+            }
+        else {
+            root->left = addOneRow(root->left, val, depth-1);
+            root->right = addOneRow(root->right, val, depth-1);
         }
 
-        return ans;
+        return root;
     }
 };
