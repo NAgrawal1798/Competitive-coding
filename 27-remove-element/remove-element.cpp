@@ -8,6 +8,7 @@ public:
                 nums[index++] = nums[i];
             }
        }
+
        return index;
     }
 };
