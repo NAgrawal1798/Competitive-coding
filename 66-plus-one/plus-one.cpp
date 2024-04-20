@@ -1,30 +1,26 @@
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        int n = digits.size();
-        vector<int>ans;
 
-        int extraValue = -1;
-        int carry = 0;
-        
-        while(n--) {
-            if (digits[n] == 9) {
-                ans.push_back(0);
+        reverse(digits.begin(), digits.end());
+        int n = digits.size();
+        vector<int>ans(n, 0);
+        int carry = 1;
+        for(int i=0; i<n; i++) {
+            int sum = digits[i];
+            if(carry == 1) {
+                sum += 1;
+            }
+            if(sum >9) {
+                ans[i] = 0;
                 carry = 1;
             } else {
-                break;
+                ans[i] = sum;
+                carry = 0;
             }
         }
-        cout<<n<<endl;
-
-        if (n == -1){
+        if(carry == 1) {
             ans.push_back(1);
-        } else {
-            ans.push_back(digits[n] + 1);
-            n--;
-            for (int k=n; k>=0; k--) {
-                ans.push_back(digits[k]);
-            }
         }
 
         reverse(ans.begin(), ans.end());
