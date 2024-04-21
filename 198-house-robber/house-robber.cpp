@@ -1,22 +1,20 @@
 class Solution {
 public:
-    int helper(vector<int>& nums, int currentIndex, vector<int>&memo) {
-        if (currentIndex >= nums.size() ) {
+    int helper(vector<int>& nums, int i, bool flag, vector<int>&dp) {
+        if(i >= nums.size()) {
             return 0;
         }
-
-        if (memo[currentIndex] != -1) {
-            return memo[currentIndex];
+        if(dp[i] != -1) {
+            return dp[i];
         }
-
-        // pick or not pick algorithm
-        int pick = nums[currentIndex] + helper(nums, currentIndex + 2, memo);
-        int notPick = helper(nums, currentIndex + 1, memo);
-
-        return memo[currentIndex] = max(pick, notPick);
+        int take = nums[i] + helper(nums, i+2, true, dp);
+        int notTake = helper(nums, i+1, true, dp);
+        return dp[i] = max(take, notTake);
     }
     int rob(vector<int>& nums) {
-        vector<int>memo(nums.size(), -1);
-        return helper(nums, 0, memo);
+        int n = nums.size();
+        vector<int>dp(n+1, -1);
+        bool flag = true;
+        return helper(nums, 0, true, dp);
     }
 };
