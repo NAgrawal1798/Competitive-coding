@@ -1,20 +1,31 @@
 class Solution {
 public:
-    int helper(vector<int>& nums, int i, bool flag, vector<int>&dp) {
+    // recursion is correct but dp is not correct
+    int dp[105][2];//[2] >> take or not take
+    int helper(vector<int>& nums, int i, bool flag) {
         if(i >= nums.size()) {
             return 0;
         }
-        if(dp[i] != -1) {
-            return dp[i];
+        if(dp[i][flag] != -1) {
+            return dp[i][flag];
         }
-        int take = nums[i] + helper(nums, i+2, true, dp);
-        int notTake = helper(nums, i+1, true, dp);
-        return dp[i] = max(take, notTake);
+        int take = 0;
+        int notTake = 0;
+        int sum = 0;
+        if(flag) {
+            int taken = nums[i] + helper(nums, i+1, false);
+            notTake = helper(nums, i+1, true);
+            sum = max(taken, notTake);
+        } else {
+            notTake = helper(nums, i+1, true);
+        }
+        sum = max(sum, notTake);
+        return dp[i][flag] = sum;
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int>dp(n+1, -1);
+        memset(dp, -1, sizeof(dp));
         bool flag = true;
-        return helper(nums, 0, true, dp);
+        return helper(nums, 0, true);
     }
 };
