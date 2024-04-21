@@ -14,8 +14,8 @@ public:
         int sum = 0;
         if(flag) {
             int taken = nums[i] + helper(nums, i+1, false);
-            notTake = helper(nums, i+1, true);
-            sum = max(taken, notTake);
+            int notTaken = helper(nums, i+1, true);
+            sum = max(taken, notTaken);
         } else {
             notTake = helper(nums, i+1, true);
         }
