@@ -1,17 +1,21 @@
 class Solution {
 public:
-    vector<string>codes = {".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+    vector<string>alpha = {
+        ".-","-...","-.-.","-..",".","..-.","--.",
+        "....","..",".---","-.-",".-..","--","-.",
+        "---",".--.","--.-",".-.","...","-","..-",
+        "...-",".--","-..-","-.--","--.."
+    };
     int uniqueMorseRepresentations(vector<string>& words) {
-        set<string>s;
-
-        for (int i=0; i<words.size(); i++) {
-            string code = "";
-            for (char c: words[i]) {
-                code += codes[c - 'a'];
+        set<string>st;
+        for(auto s: words) {
+            string encoded = "";
+            for(int i=0; i<s.size(); i++) {
+                encoded += alpha[s[i] - 'a'];
             }
-            s.insert(code);
+            st.insert(encoded);
         }
 
-        return s.size();
+        return st.size();
     }
 };
