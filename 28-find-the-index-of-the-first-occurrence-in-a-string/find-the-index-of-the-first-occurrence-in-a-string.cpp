@@ -5,14 +5,13 @@ public:
         int m = needle.size();
 
         for(int i=0; i<n; i++) {
-
             int index = i;
-            int j = 0;
-            while(j < m && haystack[index] == needle[j]) {
-                index++;
+            int j=0;
+            while( j<m && haystack[index] == needle[j]) {
                 j++;
+                index++;
             }
-            if (j==m) {
+            if(j==m) {
                 return i;
             }
         }
