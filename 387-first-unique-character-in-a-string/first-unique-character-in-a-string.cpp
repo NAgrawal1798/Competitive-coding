@@ -1,21 +1,18 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        map<char, vector<int>>mp;
+        map<char, int>mp;
         for(int i=0; i<s.size(); i++) {
-            mp[s[i]].push_back(i);
+            mp[s[i]]++;
         }
 
-        vector<int>indexes;
-        for(auto it: mp) {
-            if(it.second.size() == 1) {
-                indexes.push_back(it.second[0]);
+        // find the index
+        int n = s.size();
+        for(int i=0; i<n; i++) {
+            if(mp[s[i]] == 1) {
+                return i;
             }
         }
-        if (indexes.size() == 0) {
-            return -1;
-        }
-        sort(indexes.begin(), indexes.end());
-        return indexes[0];
+        return -1;
     }
 };
