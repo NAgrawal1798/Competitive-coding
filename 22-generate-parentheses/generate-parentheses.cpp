@@ -1,38 +1,27 @@
 class Solution {
 public:
-    vector <string> ans;
-    string current;
-
-    void solve (int index, int delta, int len)
-    {
-        if (delta < 0)
-        {
+    void count(vector<string> &ans, string temp, int n, int l, int r) {
+        if(l==n && r == n) {
+            ans.push_back(temp);
             return;
         }
-
-        if (index == len)
-        {
-            if (delta == 0)
-            {
-                ans.push_back (current);
-            }
-
-            return;
+        if(l<n) {
+            temp.push_back('(');
+            count(ans, temp, n , l+1, r);
+            temp.pop_back();
         }
-
-        current.push_back ('(');
-        solve (index + 1, delta + 1, len);
-        current.pop_back();
-
-        current.push_back (')');
-        solve (index + 1, delta - 1, len);
-        current.pop_back();
+        if (r<l) {
+            temp.push_back(')');
+            count(ans, temp, n, l, r+1);
+            temp.pop_back();
+        }
     }
-
-    vector <string> generateParenthesis (int n)
-    {
-        solve (0, 0, n + n);
-
+    vector<string> generateParenthesis(int n) {
+        int l=0;
+        int r=0;
+        vector<string>ans;
+        string temp;
+        count(ans, temp, n, l ,r);
         return ans;
     }
 };
