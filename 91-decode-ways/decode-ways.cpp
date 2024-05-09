@@ -20,9 +20,9 @@ public:
         }
 
         int ways = 0;
-        for (int i = index + 1; i <= s.size(); i++) {
-            if (isValid(s.substr(index, i - index))) {
-                ways += helper(s, i, dp);
+        for (int i = index; i < s.size(); i++) {
+            if (isValid(s.substr(index, i - index+1))) {
+                ways += helper(s, i+1, dp);
             }
         }
 
