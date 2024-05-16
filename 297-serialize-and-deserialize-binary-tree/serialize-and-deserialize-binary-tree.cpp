@@ -11,61 +11,43 @@ class Codec {
 public:
 
     // Encodes a tree to a single string.
-    // Level order traversal
+    // preorder traversal
     string serialize(TreeNode* root) {
-        string s = "";
         if(!root) {
-            return s;
+            return "NULL,";
         }
-        queue<TreeNode *>q;
-        q.push(root);
-        while(!q.empty()) {
-            TreeNode * temp = q.front();
-            q.pop();
-            if(!temp) {
-                s.append("null,");
-            } else {
-                s.append(to_string(temp->val) + ",");
-                q.push(temp->left);
-                q.push(temp->right);
-            }
-        }
-        cout<<s<<endl;
-        return s;
+
+        return to_string(root->val) + "," + serialize(root->left) + 
+        serialize(root->right);
     }
 
     // Decodes your encoded data to tree.
     TreeNode* deserialize(string data) {
-        if(data.size() == 0) {
+        queue<string>q;
+        string s;
+        for(int i=0; i<data.size(); i++) {
+            if(data[i] == ',') {
+                q.push(s);
+                s="";
+                continue;
+            }
+            s += data[i];
+        }
+        if (s.size() != 0) {
+            q.push(s);
+        }
+        return deserialize_helper(q);
+    }
+
+    TreeNode* deserialize_helper(queue<string> &q) {
+        string s = q.front();
+        q.pop();
+        if (s == "NULL") {
             return NULL;
         }
-        stringstream s(data);
-        string str;
-        getline(s,str, ',');
-        TreeNode* root = new TreeNode(stoi(str));
-        queue<TreeNode*>q;
-        q.push(root);
-        while(!q.empty()) {
-            TreeNode* node = q.front();
-            q.pop();
-            getline(s,str,',');
-            if(str == "null") {
-                node->left = NULL;
-            } else {
-                TreeNode* left = new TreeNode(stoi(str));
-                node->left = left;
-                q.push(node->left);
-            }
-            getline(s,str, ',');
-            if(str == "null") {
-                node->right = NULL;
-            } else {
-                TreeNode* right = new TreeNode(stoi(str));
-                node->right = right;
-                q.push(right);
-            }
-        }
-
+        TreeNode* root = new TreeNode(stoi(s));
+        root->left = deserialize_helper(q);
+        root->right = deserialize_helper(q);
         return root;
     }
 };
