@@ -1,28 +1,30 @@
 class Solution {
 public:
-    void solve(string s, vector<string>& res, unordered_set<string>& st, vector<string>&temp){
-        if(s.length() == 0){
-            string str = "";
-            for(auto it:temp){
-                str += it + " ";
-            }
-            str.pop_back();
-            res.push_back(str);
+    // backtracking code
+    void helper(string s, set<string>& st, string sen, int index,
+    vector<string>&ans) {
+        //base case
+        if (index == s.size()) {
+            ans.push_back(sen);
             return;
         }
-        for(int i=0;i<s.length(); i++){
-            if(st.count(s.substr(0, i+1))){
-                temp.push_back(s.substr(0, i+1));
-                solve(s.substr(i+1), res, st, temp);
-                temp.pop_back();
+
+        // backtracking loop
+        for(int i=index; i<=s.size(); i++) {
+            string word = s.substr(index, i - index);
+            if (st.count(word) > 0) {
+                helper(s, st, sen == "" ? word : sen + " " +  word, i, ans);
             }
         }
+
+        return;
+
     }
     vector<string> wordBreak(string s, vector<string>& wordDict) {
-        vector<string>res, temp;
-        unordered_set<string>st(wordDict.begin(), wordDict.end());
-        
-        solve(s, res, st, temp);
-        return res;
+        set<string>st(wordDict.begin(), wordDict.end());
+        vector<string>ans;
+        string sen; // for sentence
+        helper(s, st, sen, 0, ans);
+        return ans;
     }
 };
