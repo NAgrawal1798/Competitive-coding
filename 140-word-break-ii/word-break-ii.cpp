@@ -9,7 +9,7 @@ public:
             return;
         }
 
-        // backtracking loop
+        // recursion loop
         for(int i=index; i<=s.size(); i++) {
             string word = s.substr(index, i - index);
             if (st.count(word) > 0) {
