@@ -12,16 +12,17 @@
 class Solution {
 public:
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
-        if (root == NULL) {
+        if(root == NULL) {
             return subRoot == NULL;
         }
-        if (isSameTree(root, subRoot)) {
+
+        if(isSameTree(root, subRoot)) {
             return true;
         }
+
         return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
     }
 
-private:
     bool isSameTree(TreeNode* s, TreeNode* t) {
         if (s == NULL && t == NULL) {
             return true;
