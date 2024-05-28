@@ -11,9 +11,8 @@
  */
 class Solution {
 public:
-    // Pseudo code
-    // 1 + min(left, right)
     int minDepth(TreeNode* root) {
+    
         if (root == NULL) {
             return 0;
         }
@@ -22,12 +21,13 @@ public:
         if(root->left) {
             left = minDepth(root->left);
         }
-        if(root->right) {
+        if (root->right) {
             right = minDepth(root->right);
         }
-        if (root->left == NULL && root->right == NULL) {
+        if (root->left == NULL && root->right == NULL ) {
             return 1;
         }
-        return 1 + min(left,right);
+
+        return 1 + min(left, right);
     }
 };
