@@ -11,38 +11,28 @@
  */
 class Solution {
 public:
-    // Make an iteration from root to leaf for all possible paths
-    void helper(vector<string>&s, TreeNode* root, string temp){
-        if (root == NULL) {
+    void helper(TreeNode* node, int &ans, string num) {
+        // Base case
+        if(node == NULL) {
             return;
         }
-        // leaf node
-        if(root->left == NULL && root->right == NULL) {
-            s.push_back(temp + to_string(root->val));
-            return;
+        // Required case
+        if(node->left == NULL && node->right == NULL) {
+            ans += stoi(num + to_string(node->val), 0, 2);
         }
-        // left subtree
-            helper(s, root->left, temp + to_string(root->val));
-        // right subtree
-            helper(s, root->right, temp + to_string(root->val));
+        if(node->left) {
+            helper(node->left, ans, num + to_string(node->val));
+        }
+        if(node->right) {
+            helper(node->right, ans, num + to_string(node->val));
+        }
     }
     int sumRootToLeaf(TreeNode* root) {
-        int ans = 0;
-        vector<string>s;
-        helper(s, root, "");
-        for(int i=0; i<s.size(); i ++) {
-            int number = 0;
-            string temp = s[i];
-            int j=0;
-            cout<<temp<<endl;
-            while(j<temp.size()) {
-                if(temp[temp.size() - j-1] == '1') {
-                    number += pow(2, j);
-                }
-                j++;
-            }
-            ans += number;
+        if(root == NULL) {
+            return 0;
         }
+        int ans = 0;
+        helper(root, ans, "");
         return ans;
     }
 };
