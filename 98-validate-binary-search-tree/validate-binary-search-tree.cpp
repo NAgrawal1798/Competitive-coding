@@ -10,36 +10,18 @@
  * };
  */
 class Solution {
-public:
-
-bool isValidBST(TreeNode* node, long long lower, long long upper) {
+private:
+    bool isValidBST(TreeNode* node, long long lower, long long higher) {
         if (node == nullptr) {
             return true;
         }
-
-        if (node->val <= lower || node->val >= upper) {
+        if (node->val <= lower || node->val >= higher) {
             return false;
         }
-
-        return isValidBST(node->left, lower, node->val) && isValidBST(node->right, node->val, upper);
+        return isValidBST(node->left, lower, node->val) && isValidBST(node->right, node->val ,higher);
     }
+public:
     bool isValidBST(TreeNode* root) {
-
-                return isValidBST(root, LONG_MIN, LONG_MAX);
-
-
-        // if (root == NULL) {
-        //     return true;
-        // }
-        // bool isTrue = true;
-        // bool rootVal = root->val;
-        // if(root->left) {
-        //     isTrue = rootVal > root->left->val ? true : false;
-        // }
-        // if(root->right) {
-        //     isTrue = rootVal < root->right->val ? true : false;
-        // }
-
-        // return isTrue && isValidBST(root->left) && isValidBST(root->right);
+        return isValidBST(root, LONG_MIN, LONG_MAX);
     }
 };
