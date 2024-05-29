@@ -10,23 +10,33 @@
  * };
  */
 class Solution {
+private:
+    void helper(TreeNode* root, vector<int>& nums) {
+        if (root == NULL) {
+            return;
+        }
+        helper(root->left, nums);
+        nums.push_back(root->val);
+        helper(root->right, nums);
+    }
 public:
     int rangeSumBST(TreeNode* root, int low, int high) {
+        // inorder traversal
         if(root == NULL) {
             return 0;
         }
-        int result = 0;
+        int ans = 0;
+        vector<int>nums;
+        helper(root, nums);
+        // Find the lower and upper bounds
+        auto lowerIt = lower_bound(nums.begin(), nums.end(), low);
+        auto upperIt = upper_bound(nums.begin(), nums.end(), high);
 
-        if(root->val >= low && root->val <= high) {
-            result += root->val;
+        // Sum the range
+        int sum = 0;
+        for (auto it = lowerIt; it != upperIt; ++it) {
+            sum += *it;
         }
-        if(root->left) {
-            result += rangeSumBST(root->left, low, high);
-        }
-        if(root->right) {
-            result += rangeSumBST(root->right, low, high);
-        }
-
-        return result;
+        return sum;
     }
 };
