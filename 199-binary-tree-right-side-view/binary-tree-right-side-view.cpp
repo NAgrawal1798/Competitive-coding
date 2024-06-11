@@ -11,48 +11,42 @@
  */
 class Solution {
 public:
-
-    void recursion (TreeNode *root, int level, vector<int> &ans) {
-        if (root == NULL) {
-            return;
+    int height(TreeNode* root) {
+        if(root == NULL) {
+            return 0;
         }
-        if (ans.size() < level) {
-            ans.push_back(root->val);
-        }
-        recursion(root->right, level+1, ans);
-        recursion(root->left, level+1, ans);
+        return 1 + max(height(root->left), height(root->right));
     }
     vector<int> rightSideView(TreeNode* root) {
-        vector<int>ans;
-        recursion(root, 1, ans);
+        if (root == NULL) {
+            return {};
+        }
+        // use queue to solve this question
+        // find height of this binary tree
+        int h = height(root);
+        vector<int>ans(h, -1);
+        queue<TreeNode*>q;
+        q.push(root);
+        int level = 0;
+
+        while(!q.empty()) {
+            int size = q.size();
+
+            for(int i=0; i<size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                if (ans[level] == -1) {
+                    ans[level] = node->val;
+                }
+                if (node->right != NULL) {
+                    q.push(node->right);
+                }
+                if (node->left != NULL) {
+                    q.push(node->left);
+                }
+            }
+            level++;
+        }
         return ans;
-        // vector<int>ans;
-
-        // if (root == NULL) {
-        //     return ans;
-        // }
-
-        // queue<TreeNode*>q;
-        // q.push(root);
-
-        // while(!q.empty()) {
-        //     int size = q.size();
-
-        //     for (int i=0; i<size; i++) {
-        //         TreeNode* node = q.front();
-        //         if (i== size-1) {
-        //             ans.push_back(node->val);
-        //         }
-        //         if (node->left) {
-        //             q.push(node->left);
-        //         }
-        //         if (node->right) {
-        //             q.push(node->right);
-        //         }
-        //         q.pop();
-        //     }
-        // }
-
-        // return ans;
     }
 };
