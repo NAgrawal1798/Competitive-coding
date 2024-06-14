@@ -1,6 +1,3 @@
-#include <iostream>
-#include <unordered_map>
-
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -14,30 +11,28 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, long long targetSum, int& ans) {
+    // recursion to solve the sum
+    void helper(TreeNode* root, long long int targetSum, int &ans) {
         if (root == NULL) {
             return;
         }
-        
         targetSum -= root->val;
-        if (targetSum == 0) {
+        if(targetSum == 0) {
             ans++;
         }
-        
         helper(root->left, targetSum, ans);
-        helper(root->right, targetSum, ans);
+        helper(root->right, targetSum ,ans);
     }
-
-    void pathSumHelper(TreeNode* root, long long targetSum, int& ans) {
+    // recursion to start from every node
+    void pathSumHelper(TreeNode* root, long long int targetSum, int &ans) {
         if (root == NULL) {
             return;
         }
-        
+        // solve the sum
         helper(root, targetSum, ans);
         pathSumHelper(root->left, targetSum, ans);
         pathSumHelper(root->right, targetSum, ans);
     }
-
     int pathSum(TreeNode* root, int targetSum) {
         int ans = 0;
         pathSumHelper(root, targetSum, ans);
