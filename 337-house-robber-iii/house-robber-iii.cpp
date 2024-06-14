@@ -11,31 +11,39 @@
  */
 class Solution {
 public:
-    // PICK OR NOT PICK
-    map<pair<TreeNode*, int>, int>mp;
-    int helper(TreeNode* root, int canPick) {
+    unordered_map<TreeNode*, int> dpTrue, dpFalse;
 
+    int helper(TreeNode* root, bool flag) {
         if (root == NULL) {
             return 0;
         }
-
-        if (mp.find({root,canPick}) != mp.end()) {
-            return mp[{root,canPick}];
+        if (flag && dpTrue.find(root) != dpTrue.end()) {
+            return dpTrue[root];
+        }
+        if (!flag && dpFalse.find(root) != dpFalse.end()) {
+            return dpFalse[root];
         }
 
-        int pick = 0;
-        int notpick = 0;
+        int allowed = 0;
+        int notAllowed = 0;
 
-        if (canPick) {
-            int picked  = root->val + helper(root->left, 0) + helper(root->right, 0);
-            int notpicked = 0 + helper(root->left, 1) + helper(root->right, 1);
-            pick = max(picked, notpicked);
+        if (flag) {
+            int take = root->val + helper(root->left, false) + helper(root->right, false);
+            int notTake = helper(root->left, true) + helper(root->right, true);
+            allowed = max(take, notTake);
+            dpTrue[root] = allowed;
         } else {
-            notpick = 0 + helper(root->left, 1) + helper(root->right, 1);
+            notAllowed = helper(root->left, true) + helper(root->right, true);
+            dpFalse[root] = notAllowed;
         }
-        return mp[{root, canPick}] = max(pick,notpick);
+
+        return max(allowed, notAllowed);
     }
+
     int rob(TreeNode* root) {
-        return max(helper(root, 1), helper(root, 0));
+        if (root == NULL) {
+            return 0;
+        }
+        return helper(root, true);
     }
 };
