@@ -11,17 +11,14 @@
  */
 class Solution {
 public:
-    unordered_map<TreeNode*, int> dpTrue, dpFalse;
+    map<pair<TreeNode*, bool>, int> mp;
 
     int helper(TreeNode* root, bool flag) {
         if (root == NULL) {
             return 0;
         }
-        if (flag && dpTrue.find(root) != dpTrue.end()) {
-            return dpTrue[root];
-        }
-        if (!flag && dpFalse.find(root) != dpFalse.end()) {
-            return dpFalse[root];
+        if (mp.find({root, flag}) != mp.end()) {
+            return mp[{root, flag}];
         }
 
         int allowed = 0;
@@ -31,13 +28,11 @@ public:
             int take = root->val + helper(root->left, false) + helper(root->right, false);
             int notTake = helper(root->left, true) + helper(root->right, true);
             allowed = max(take, notTake);
-            dpTrue[root] = allowed;
         } else {
             notAllowed = helper(root->left, true) + helper(root->right, true);
-            dpFalse[root] = notAllowed;
         }
 
-        return max(allowed, notAllowed);
+        return mp[{root, flag}] = max(allowed, notAllowed);
     }
 
     int rob(TreeNode* root) {
