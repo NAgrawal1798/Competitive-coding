@@ -16,8 +16,8 @@ public:
         if(!root){
             return 0;
         }
-        countNodes(root->left);
         ans++;
+        countNodes(root->left);
         countNodes(root->right);
         return ans;
     }
