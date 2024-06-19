@@ -13,12 +13,11 @@ public:
     // Encodes a tree to a single string.
     // preorder traversal
     string serialize(TreeNode* root) {
-        if(!root) {
+        if (root == nullptr) {
             return "NULL,";
         }
 
-        return to_string(root->val) + "," + serialize(root->left) + 
-        serialize(root->right);
+        return to_string(root->val) + "," + serialize(root->left) + serialize(root->right);
     }
 
     // Decodes your encoded data to tree.
@@ -26,29 +25,31 @@ public:
         queue<string>q;
         string s;
         for(int i=0; i<data.size(); i++) {
-            if(data[i] == ',') {
+            if (data[i] == ',') {
                 q.push(s);
-                s="";
+                s = "";
                 continue;
             }
             s += data[i];
         }
-        if (s.size() != 0) {
+        if(s.size()) {
             q.push(s);
         }
+
         return deserialize_helper(q);
     }
 
-    TreeNode* deserialize_helper(queue<string> &q) {
+    TreeNode* deserialize_helper(queue<string>& q) {
         string s = q.front();
         q.pop();
         if (s == "NULL") {
             return NULL;
         }
-        TreeNode* root = new TreeNode(stoi(s));
-        root->left = deserialize_helper(q);
-        root->right = deserialize_helper(q);
-        return root;
+        TreeNode* node = new TreeNode(stoi(s));
+        node->left = deserialize_helper(q);
+        node->right = deserialize_helper(q);
+
+        return node;
     }
 };
 
