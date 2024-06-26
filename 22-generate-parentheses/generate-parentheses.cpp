@@ -1,27 +1,40 @@
 class Solution {
 public:
-    void count(vector<string> &ans, string temp, int n, int l, int r) {
-        if(l==n && r == n) {
-            ans.push_back(temp);
+    void helper(int n ,int open , int closed, string s , vector<string>&ans) {
+        if (closed > open) {
             return;
         }
-        if(l<n) {
-            temp.push_back('(');
-            count(ans, temp, n , l+1, r);
-            temp.pop_back();
+        if (open + closed > 2*n) {
+            return;
         }
-        if (r<l) {
-            temp.push_back(')');
-            count(ans, temp, n, l, r+1);
-            temp.pop_back();
+        if ((open + closed == 2*n)) {
+            ans.push_back(s);
+        }
+        // add open brackets
+        if (open < n) {
+            s += "(";
+            open++;
+            helper(n, open, closed, s, ans);
+            open--;
+            s.pop_back();
+        }
+        
+        // add closed brackets
+        if (closed < n) {
+            s += ")";
+            closed++;
+            helper(n, open, closed, s, ans);
+            closed--;
+            s.pop_back();
         }
     }
     vector<string> generateParenthesis(int n) {
-        int l=0;
-        int r=0;
+        // bactracking problem
+        int open = 0;
+        int closed = 0;
+        string s = "";
         vector<string>ans;
-        string temp;
-        count(ans, temp, n, l ,r);
+        helper(n, open ,closed, s, ans);
         return ans;
     }
 };
