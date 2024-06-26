@@ -4,9 +4,6 @@ public:
         if (closed > open) {
             return;
         }
-        if (open + closed > 2*n) {
-            return;
-        }
         if ((open + closed == 2*n)) {
             ans.push_back(s);
         }
