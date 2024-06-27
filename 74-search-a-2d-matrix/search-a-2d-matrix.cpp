@@ -30,7 +30,9 @@ public:
         }
         cout<<rowIndex<<endl;
 
-        int colIndex = upper_bound(row.begin(), row.end(), target) - row.begin()-1;
+        int colIndex = upper_bound(row.begin(), row.end(), target) - row.begin() - 1;
+
+        cout<<colIndex<<endl;
 
         if (row[colIndex] == target) {
             return true;
