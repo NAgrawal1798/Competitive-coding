@@ -1,34 +1,69 @@
 class LRUCache {
 public:
-    int capacity;
-    list<int>lru;
-    unordered_map<int, pair<int, list<int>::iterator>>mp;
+    class Node {
+        public:
+        int key;
+        int val;
+        Node* prev;
+        Node* next;
+        Node(int _key, int _val) {
+            key = _key;
+            val = _val;
+            prev = NULL;
+            next = NULL;
+        }
+    };
+    int cap;
+    unordered_map<int, Node*>mp;
+    Node* head = new Node(-1, -1);
+    Node* tail = new Node(-1, -1);
     LRUCache(int capacity) {
-        this->capacity = capacity;
+        cap = capacity;
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    void addNode(Node* newNode) {
+        Node* temp = head->next;
+        newNode->next = temp;
+        newNode->prev = head;
+        head->next = newNode;
+        temp->prev = newNode;
+    }
+
+    void deleteNode(Node* delNode) {
+        Node* delPrev = delNode->prev;
+        Node* delNext = delNode->next;
+        delPrev->next = delNext;
+        delNext->prev = delPrev;
     }
     
     int get(int key) {
-        // If element is not found
-        if(mp.find(key) == mp.end()) {
-            return -1;
+        if (mp.find(key) != mp.end()) {
+            Node* resNode = mp[key];
+            int res = resNode->val;
+
+            deleteNode(resNode);
+            addNode(resNode);
+            return res;
         }
-        lru.erase(mp[key].second);
-        lru.push_front(key);
-        mp[key].second = lru.begin();
-        return mp[key].first;   
+        return -1;
     }
     
     void put(int key, int value) {
-        // If we reach the size limit
         if (mp.find(key) != mp.end()) {
-            lru.erase(mp[key].second);
-        }else if (lru.size() == capacity) {   
-            int lru_key  = lru.back();
-            lru.pop_back();
-            mp.erase(lru_key);
+            Node* existingNode = mp[key];
+            mp.erase(key);
+            deleteNode(existingNode);
         }
-        lru.push_front(key);
-        mp[key] = {value, lru.begin()};
+
+        if (mp.size() == cap) {
+            mp.erase(tail->prev->key);
+            deleteNode(tail->prev);
+        }
+
+        addNode(new Node(key, value));
+        mp[key] = head->next;
     }
 };
 
