@@ -1,31 +1,29 @@
-#include <unordered_map>
-#include <list>
-
 class LRUCache {
 public:
     int capacity;
-    std::list<int> lru; // stores keys to maintain LRU order
-    std::unordered_map<int, std::pair<int, std::list<int>::iterator>> mp; // stores key-value pairs and iterators to the LRU list
-
+    list<int>lru;
+    unordered_map<int, pair<int, list<int>::iterator>>mp;
     LRUCache(int capacity) {
         this->capacity = capacity;
     }
     
     int get(int key) {
-        if (mp.find(key) == mp.end()) {
-            return -1; // key not found
+        // If element is not found
+        if(mp.find(key) == mp.end()) {
+            return -1;
         }
         lru.erase(mp[key].second);
         lru.push_front(key);
         mp[key].second = lru.begin();
-        return mp[key].first;
+        return mp[key].first;   
     }
     
     void put(int key, int value) {
+        // If we reach the size limit
         if (mp.find(key) != mp.end()) {
             lru.erase(mp[key].second);
-        } else if (lru.size() == capacity) {
-            int lru_key = lru.back();
+        }else if (lru.size() == capacity) {   
+            int lru_key  = lru.back();
             lru.pop_back();
             mp.erase(lru_key);
         }
