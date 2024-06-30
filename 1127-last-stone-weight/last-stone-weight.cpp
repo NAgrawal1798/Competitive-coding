@@ -1,25 +1,23 @@
 class Solution {
 public:
     int lastStoneWeight(vector<int>& stones) {
-        // priority_queue
-        // 2,7,4,1,8,1
-        std::priority_queue<int> pq;
+        priority_queue<int>pq;
 
-        for(int i=0; i<stones.size(); i++) {
+        int n = stones.size();
+        for (int i=0; i<n; i++) {
             pq.push(stones[i]);
         }
 
-        while(pq.size() > 1) {
-            int y = pq.top();
+        while(pq.size() != 1) {
+            int first = pq.top();
             pq.pop();
-            int x = pq.top();
+
+            int second = pq.top();
             pq.pop();
-            if (x<=y) {
-                pq.push(y - x);
-            }
+
+            pq.push(first - second);
         }
 
-        int ans = pq.top();
-        return ans;
+        return pq.top();
     }
 };
